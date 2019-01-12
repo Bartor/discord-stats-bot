@@ -1,6 +1,6 @@
 CREATE DATABASE DiscordStats;
-CREATE USER 'app'@'localhost' IDENTIFIED BY '${appConnectionPassword}';
-GRANT SELECT, INSERT, UPDATE, DELETE, CREATE_VIEW, CREATE_USER, DROP ON DiscordStats.* TO 'app'@'localhost';
+CREATE USER 'DiscordStatsBot'@'localhost' IDENTIFIED BY '${appConnectionPassword}';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE_VIEW, CREATE_USER, DROP ON DiscordStats.* TO 'DiscordStatsBot'@'localhost';
 
 CREATE TABLE Users(
     id          INT             NOT NULL PRIMARY KEY,
