@@ -1,5 +1,6 @@
-CREATE DATABASE DiscordStats;
-CREATE USER 'DiscordStatsBot'@'localhost' IDENTIFIED BY '${appConnectionPassword}';
+CREATE DATABASE `DiscordStats`;
+USE `DiscordStats`;
+CREATE USER 'DiscordStatsBot'@'localhost' IDENTIFIED BY '$$';
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE_VIEW, CREATE_USER, DROP ON DiscordStats.* TO 'DiscordStatsBot'@'localhost';
 
 CREATE TABLE Users(
@@ -20,10 +21,12 @@ CREATE TABLE GuildUser(
     nickname    VARCHAR(100)    NOT NULL,
 
     FOREIGN KEY (guildId)
-        REFERENCES Guilds(id),
+        REFERENCES Guilds(id)
+        ON DELETE CASCADE,
 
     FOREIGN KEY (userId)
         REFERENCES Users(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE Channels(
@@ -34,47 +37,50 @@ CREATE TABLE Channels(
 
     FOREIGN KEY (guildId)
         REFERENCES Guilds(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE Messages(
     id      INT     NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    time    DATE    NOT NULL,
+    time    TIME    NOT NULL,
     author  INT     NOT NULL,
     channel INT     NOT NULL,
 
     FOREIGN KEY (author)
-        REFERENCES GuildUser(userId),
+        REFERENCES GuildUser(userId)
+        ON DELETE CASCADE,
 
     FOREIGN KEY (channel)
         REFERENCES Channels(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE ChannelLog(
     event       ENUM('ChannelNameChanged', 'ChannelCreated', 'ChannelDeleted')  NOT NULL,
     guildId     INT                                                             NOT NULL,
     name        VARCHAR(100)                                                    NOT NULL,
-    time        DATE                                                            NOT NULL
+    time        TIME                                                            NOT NULL
 );
 
 CREATE TABLE GuildLog(
     event       ENUM('GuildNameChanged','GuildCreated', 'GuildDeleted') NOT NULL,
     guildId     INT                                                     NOT NULL,
     name        VARCHAR(100)                                            NOT NULL,
-    time        DATE                                                    NOT NULL
+    time        TIME                                                    NOT NULL
 );
 
 CREATE TABLE GuildUserLog(
     event       ENUM('GuildUserNameChanged', 'GuildUserCreated', 'GuildUserDeleted')    NOT NULL,
     guildUser   INT                                                                     NOT NULL,
     nickname    VARCHAR(100)                                                            NOT NULL,
-    time        DATE                                                                    NOT NULL
+    time        TIME                                                                    NOT NULL
 );
 
-CREATE MessageLog(
+CREATE TABLE MessageLog(
     event       ENUM('MessageEdited', 'MessageDeleted') NOT NULL,
     channelId   INT                                     NOT NULL,
     guildUser   INT                                     NOT NULL,
-    time        DATE                                    NOT NULL
+    time        TIME                                    NOT NULL
 );
 
 DELIMITER //
@@ -108,7 +114,7 @@ BEGIN
     );
 END;
 
-CREATE TRIGGER GuildCreated ON Guilds AFTER INSERT FOR EACH ROW
+CREATE TRIGGER GuildCreated AFTER INSERT ON Guilds FOR EACH ROW
 BEGIN
     INSERT INTO GuildLog VALUES(
         'GuildCreated',
@@ -118,7 +124,7 @@ BEGIN
     );
 END;
 
-CREATE TRIGGER GuildDeleted ON Guilds AFTER DELETE FOR EACH ROW
+CREATE TRIGGER GuildDeleted AFTER DELETE ON Guilds FOR EACH ROW
 BEGIN
     INSERT INTO GuildLog VALUES(
         'GuildDeleted',
@@ -128,7 +134,7 @@ BEGIN
     );
 END;
 
-CREATE TRIGGER GuildEdited ON Guilds AFTER UPDATE FOR EACH ROW
+CREATE TRIGGER GuildEdited AFTER UPDATE ON Guilds FOR EACH ROW
 BEGIN
     INSERT INTO GuildLog VALUES(
         'GuildNameChanged',
@@ -138,7 +144,7 @@ BEGIN
     );
 END;
 
-CREATE TRIGGER GuildUserCreated ON GuildUser AFTER INSERT FOR EACH ROW
+CREATE TRIGGER GuildUserCreated AFTER INSERT ON GuildUser FOR EACH ROW
 BEGIN
     INSERT INTO GuildUserLog VALUES(
         'GuildUserCreated',
@@ -148,7 +154,7 @@ BEGIN
     );
 END;
 
-CREATE TRIGGER GuildUserNameChanged ON GuildUser AFTER UPDATE FOR EACH ROW
+CREATE TRIGGER GuildUserNameChanged AFTER UPDATE ON GuildUser FOR EACH ROW
 BEGIN
     INSERT INTO GuildUserLog VALUES(
         'GuildUserNameChanged',
@@ -158,7 +164,7 @@ BEGIN
     );
 END;
 
-CREATE TRIGGER GuildUserDeleted ON GuildUser AFTER DELETE FOR EACH ROW
+CREATE TRIGGER GuildUserDeleted AFTER DELETE ON GuildUser FOR EACH ROW
 BEGIN
     INSERT INTO GuildUserLog VALUES(
         'GuildUserDeleted',
@@ -166,4 +172,6 @@ BEGIN
         OLD.nickname,
         NOW()
     );
-END;
+END;//
+
+DELIMITER ;
