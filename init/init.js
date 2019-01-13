@@ -1,7 +1,7 @@
 let fs = require('fs');
 let readline = require('readline');
 
-let db = require('mysql2/promise');
+let db = require('mysql2');
 let discord = require('discord.js');
 
 function main() {
@@ -25,12 +25,12 @@ function main() {
                         let root = a4 || 'root';
                         readStream.question('MySQL root pswd (won\'t be stored): ', (a5) => {
                             let rootpswd = a5;
-                            readStream.question('Bot user pswd (for manual debug): ', async (a6) => {
+                            readStream.question('Bot user pswd (for manual debug): ', (a6) => {
                                 config.password = a6;
     
-                                if (!fs.existsSync('config')) fs.mkdirSync('config');
+                                if (!fs.existsSync('..\\config')) fs.mkdirSync('..\\config');
     
-                                const connection = await db.createConnection({
+                                const connection = db.createConnection({
                                     host: config.host,
                                     port: config.port,
                                     user: root,
@@ -38,14 +38,14 @@ function main() {
                                     multipleStatements: true
                                 });
     
-                                let q = fs.readFileSync('sqlinit.sql', 'utf8');
-                                q.replace('$$', config.password);
+                                fs.writeFileSync('sqlinit.sql', fs.readFileSync('sqlinit.sql', 'utf8').replace("???", config.password));
 
-                                console.log(q);
-    
-                                const [row, fields] = await connection.query(q);
-
-                                console.log(row, fields);
+                                connection.query('source ' + __dirname + '\\' + 'sqlinit.sql', (err, rows, fields) => {
+                                    if (err) console.log(err);
+                                    else {
+                                        console.log(rows, fields);
+                                    }
+                                });
                             });
                         });
                     });
