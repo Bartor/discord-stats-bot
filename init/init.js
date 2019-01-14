@@ -34,8 +34,7 @@ function main() {
                                     host: config.host,
                                     port: config.port,
                                     user: root,
-                                    password: rootpswd,
-                                    multipleStatements: true
+                                    password: rootpswd
                                 });
     
                                 fs.writeFileSync('sqlinit.sql', fs.readFileSync('sqlinit.sql', 'utf8').replace("???", config.password));
