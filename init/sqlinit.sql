@@ -1,3 +1,6 @@
+DROP DATABASE DiscordStats;
+DROP USER 'DiscordStatsBot'@'localhost';
+
 CREATE DATABASE IF NOT EXISTS DiscordStats;
 USE DiscordStats;
 CREATE USER IF NOT EXISTS 'DiscordStatsBot'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234';
@@ -8,7 +11,7 @@ FLUSH PRIVILEGES;
 CREATE TABLE IF NOT EXISTS Users(
     id          BIGINT             NOT NULL PRIMARY KEY,
     userName    VARCHAR(32)     NOT NULL,
-    userTag     BIGINT             NOT NULL
+    userTag     VARCHAR(6)             NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Guilds(
@@ -20,7 +23,7 @@ CREATE TABLE IF NOT EXISTS Guilds(
 CREATE TABLE IF NOT EXISTS GuildUser(
     guildId     BIGINT             NOT NULL,
     userId      BIGINT             NOT NULL,
-    nickname    VARCHAR(100)
+    nickname    VARCHAR(100)       DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Channels(
@@ -54,7 +57,7 @@ CREATE TABLE IF NOT EXISTS GuildLog(
 CREATE TABLE IF NOT EXISTS GuildUserLog(
     event       ENUM('GuildUserNameChanged', 'GuildUserCreated', 'GuildUserDeleted')    NOT NULL,
     guildUser   BIGINT                                                                     NOT NULL,
-    nickname    VARCHAR(100)                                                            NOT NULL,
+    nickname    VARCHAR(100)                                                            DEFAULT NULL,
     DATETIME       DATETIME                                                                   NOT NULL
 );
 
