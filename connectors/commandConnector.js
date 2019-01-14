@@ -28,9 +28,9 @@ module.exports = {
         if (authorState) {
             for (let i of authorIds.keys()) {
                 if (i != authorIds.length -1) {
-                    authorString.concat(' author = ? OR');
+                    authorString += ' author = ? OR';
                 } else {
-                    authorString.concat(' author = ?');
+                    authorString += ' author = ?';
                 }
             }
         } else {
@@ -40,9 +40,9 @@ module.exports = {
         if (channelState) {
             for (let i of channelIds.keys()) {
                 if (i != channelIds.length -1) {
-                    channelString.concat(' channel = ?  OR');
+                    channelString += ' channel = ?  OR';
                 } else {
-                    channelString.concat(' channel = ?');
+                    channelString += ' channel = ?';
                 }
             }
         } else {

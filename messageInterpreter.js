@@ -10,7 +10,7 @@ for (let dir of fs.readdirSync('commands/')) {
 module.exports = {
     interpret: function(msg) {
         for (let [key, value] of commands) {
-            if (key.startsWith(msg.content)) {
+            if (key.startsWith(msg.content.split(' ')[0])) {
                 value.run(msg);
             }
         }
