@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS Channels(
 
 CREATE TABLE IF NOT EXISTS Messages(
     id      VARCHAR(32)     NOT NULL,
-    DATETIME   DATETIME   NOT NULL,
+    time   DATETIME   NOT NULL,
     author  VARCHAR(32)     NOT NULL,
     channel VARCHAR(32)     NOT NULL
 );
@@ -44,21 +44,21 @@ CREATE TABLE IF NOT EXISTS ChannelLog(
     event       ENUM('ChannelNameChanged', 'ChannelCreated', 'ChannelDeleted')  NOT NULL,
     guildId     VARCHAR(32)                                                             NOT NULL,
     name        VARCHAR(100)                                                    NOT NULL,
-    DATETIME       DATETIME                                                           NOT NULL
+    time       DATETIME                                                           NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS GuildLog(
     event       ENUM('GuildNameChanged','GuildCreated', 'GuildDeleted') NOT NULL,
     guildId     VARCHAR(32)                                                     NOT NULL,
     name        VARCHAR(100)                                            NOT NULL,
-    DATETIME       DATETIME                                                   NOT NULL
+    time       DATETIME                                                   NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS GuildUserLog(
     event       ENUM('GuildUserNameChanged', 'GuildUserCreated', 'GuildUserDeleted')    NOT NULL,
     guildUser   VARCHAR(32)                                                                     NOT NULL,
     nickname    VARCHAR(100)                                                            DEFAULT NULL,
-    DATETIME       DATETIME                                                                   NOT NULL
+    time       DATETIME                                                                   NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS MessageLog(
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS MessageLog(
     id          VARCHAR(32)                                    NOT NULL,
     channel   VARCHAR(32)                                     NOT NULL,
     user   VARCHAR(32)                                     NOT NULL,
-    DATETIME       DATETIME                                      NOT NULL
+    time       DATETIME                                      NOT NULL
 );
 
 DELIMITER //
