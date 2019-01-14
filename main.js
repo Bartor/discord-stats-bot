@@ -1,6 +1,8 @@
 const fs = require('fs');
 const discord = require('discord.js');
 
+const interpreter = require('./messageInterpreter');
+
 const discordConfig = JSON.parse(fs.readFileSync('config/discord.json'));
 
 const bot = new discord.Client();
