@@ -1,15 +1,20 @@
+const connector = require('../connectors/eventConnector');
+const res = require('../util/dbResponseHandler');
+
 module.exports = {
     register: function(client) {
         client.on('guildMemberAdd', (member) => {
-
+            connector.insertUser(member.id, member.client.user.username, Integer.parseInt(member.client.user.tag), res);
+            connector.insertGuildUser(member.guild.id, member.id, member.nickname, res);
         });
 
         client.on('guildMemberRemove', (member) => {
-
+            connector.deleteGuildUser(member.guild.id, member.id, res);
         });
 
         client.on('guildMemberUpdate', (memberOld, memberNew) => {
-
+            if (memberOld.nickname != memberNew.nickname)
+            connector.updateGuildUser(memberNew.guild.id, memberNew.id, memberNew.nickname, res);
         });
     }
 }
