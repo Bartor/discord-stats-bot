@@ -4,7 +4,7 @@ const commands = new Map();
 
 for (let dir of fs.readdirSync('commands/')) {
     commands.set(dir, require(__dirname + '/commands/' + dir));
-    console.log(dir + 'loaded');
+    console.log(dir + ' loaded');
 }
 
 module.exports = {
