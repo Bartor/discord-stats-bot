@@ -21,4 +21,9 @@ bot.on('ready', () => {
     require('./handlers/user').register(bot);
 
     console.log('Handlers registered, working now');
+    console.log('Syncing data...');
+
+    require('./util/syncAll')(bot);
+
+    console.log('Synced');
 });
