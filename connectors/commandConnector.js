@@ -49,6 +49,6 @@ module.exports = {
             channelIds = [];
         }
 
-        connection.query(`SELECT COUNT(*) AS 'Count', name AS 'Channel' FROM Messages M JOIN Channels C ON M.channel = C.id WHERE time > ? AND time < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''} GROUP BY channel ORDER BY COUNT(*) DESC`, [from, to, ...authorIds, ...channelIds], cb);
+        connection.query(`SELECT COUNT(*) AS 'Count', name AS 'Channel' FROM Messages M JOIN Channels C ON M.channel = C.id WHERE guildId = ? AND time > ? AND time < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''} GROUP BY channel ORDER BY COUNT(*) DESC`, [guildId, from, to, ...authorIds, ...channelIds], cb);
     }
 };
