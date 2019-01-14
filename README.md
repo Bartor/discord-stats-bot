@@ -1,6 +1,6 @@
 <p align="center">
     <img src=./img/logo-mini-transparent.png>
-    <h1> Discord Stats Bot </h1>
 </p>
 
-A very cool bot. Readme tbd.
+<h1 align="center">Discord Stats Bot</h1>
+<h4 align="center">A very cool bot</h4>
