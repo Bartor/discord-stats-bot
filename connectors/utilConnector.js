@@ -6,8 +6,7 @@ const connection = db.createConnection({
     port: config.port,
     user: config.user,
     password: config.password,
-    database: "DiscordStats",
-    supportBigNumbers: true
+    database: "DiscordStats"
 });
 
 connection.connect((err) => {

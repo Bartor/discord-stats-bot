@@ -23,7 +23,7 @@ bot.on('ready', () => {
     console.log('Handlers registered, working now');
     console.log('Syncing data...');
 
-    require('./util/syncAll')(bot);
-
-    console.log('Synced');
+    require('./util/syncAll')(bot, (r) => {
+        r ? console.log('Synced') : console.log('Sync error!');
+    });
 });

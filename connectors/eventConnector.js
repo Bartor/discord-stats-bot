@@ -6,8 +6,7 @@ const connection = db.createConnection({
     port: config.port,
     user: config.user,
     password: config.password,
-    database: "DiscordStats",
-    supportBigNumbers: true
+    database: "DiscordStats"
 });
 
 connection.connect((err) => {
@@ -17,7 +16,7 @@ connection.connect((err) => {
     } else {
         console.log('Connected to db');
     }
-})
+});
 
 module.exports = {
     insertMessage: function(id, author, channel, time, cb) {

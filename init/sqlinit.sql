@@ -9,63 +9,63 @@ GRANT CREATE VIEW, CREATE USER ON *.* TO 'DiscordStatsBot'@'localhost';
 FLUSH PRIVILEGES;
 
 CREATE TABLE IF NOT EXISTS Users(
-    id          BIGINT             NOT NULL PRIMARY KEY,
+    id          VARCHAR(32)             NOT NULL PRIMARY KEY,
     userName    VARCHAR(32)     NOT NULL,
     userTag     VARCHAR(6)             NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Guilds(
-    id          BIGINT             NOT NULL PRIMARY KEY,
+    id          VARCHAR(32)             NOT NULL PRIMARY KEY,
     name        VARCHAR(100)    NOT NULL,
-    ownerID     BIGINT             NOT NULL
+    ownerID     VARCHAR(32)             NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS GuildUser(
-    guildId     BIGINT             NOT NULL,
-    userId      BIGINT             NOT NULL,
+    guildId     VARCHAR(32)             NOT NULL,
+    userId      VARCHAR(32)             NOT NULL,
     nickname    VARCHAR(100)       DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Channels(
-    id          BIGINT                     NOT NULL PRIMARY KEY,
+    id          VARCHAR(32)                     NOT NULL PRIMARY KEY,
     name        VARCHAR(100)            NOT NULL,
-    guildId     BIGINT                     NOT NULL,
+    guildId     VARCHAR(32)                     NOT NULL,
     type        ENUM('Voice', 'Text')   NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Messages(
-    id      BIGINT     NOT NULL,
+    id      VARCHAR(32)     NOT NULL,
     DATETIME   DATETIME   NOT NULL,
-    author  BIGINT     NOT NULL,
-    channel BIGINT     NOT NULL
+    author  VARCHAR(32)     NOT NULL,
+    channel VARCHAR(32)     NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS ChannelLog(
     event       ENUM('ChannelNameChanged', 'ChannelCreated', 'ChannelDeleted')  NOT NULL,
-    guildId     BIGINT                                                             NOT NULL,
+    guildId     VARCHAR(32)                                                             NOT NULL,
     name        VARCHAR(100)                                                    NOT NULL,
     DATETIME       DATETIME                                                           NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS GuildLog(
     event       ENUM('GuildNameChanged','GuildCreated', 'GuildDeleted') NOT NULL,
-    guildId     BIGINT                                                     NOT NULL,
+    guildId     VARCHAR(32)                                                     NOT NULL,
     name        VARCHAR(100)                                            NOT NULL,
     DATETIME       DATETIME                                                   NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS GuildUserLog(
     event       ENUM('GuildUserNameChanged', 'GuildUserCreated', 'GuildUserDeleted')    NOT NULL,
-    guildUser   BIGINT                                                                     NOT NULL,
+    guildUser   VARCHAR(32)                                                                     NOT NULL,
     nickname    VARCHAR(100)                                                            DEFAULT NULL,
     DATETIME       DATETIME                                                                   NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS MessageLog(
     event       ENUM('MessageEdited', 'MessageDeleted') NOT NULL,
-    id          BIGINT                                    NOT NULL,
-    channel   BIGINT                                     NOT NULL,
-    user   BIGINT                                     NOT NULL,
+    id          VARCHAR(32)                                    NOT NULL,
+    channel   VARCHAR(32)                                     NOT NULL,
+    user   VARCHAR(32)                                     NOT NULL,
     DATETIME       DATETIME                                      NOT NULL
 );
 

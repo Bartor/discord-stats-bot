@@ -5,6 +5,11 @@ module.exports = {
     register: function(client) {
         client.on('guildCreate', (guild) => {
             connector.insertGuild(guild.id, guild.name, guild.owner.id, res);
+            console.log('Syncing data...');
+
+            require('./util/syncAll')(client, (r) => {
+                r ? console.log('Synced') : console.log('Sync error!');
+            });
         });
 
         client.on('guildDelete', (guild) => {
