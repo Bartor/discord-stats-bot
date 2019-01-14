@@ -14,4 +14,11 @@ bot.login(discordConfig.token).then(reply => {
 
 bot.on('ready', () => {
     console.log('Bot ready, registring event handlers');
+
+    require('./handlers/channel').register(bot);
+    require('./handlers/guild').register(bot);
+    require('./handlers/message').register(bot);
+    require('./handlers/user').register(bot);
+
+    console.log('Handlers registered, working now');
 });
