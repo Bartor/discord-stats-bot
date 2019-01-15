@@ -70,6 +70,17 @@ CREATE TABLE IF NOT EXISTS MessageLog(
 );
 
 DELIMITER //
+CREATE TRIGGER MessageDeleted AFTER DELETE ON Messages FOR EACH ROW
+BEGIN
+    INSERT INTO MessageLog VALUES(
+        'MessageDeleted',
+        OLD.id,
+        OLD.channel,
+        OLD.author,
+        NOW()
+    );
+END;//
+
 CREATE TRIGGER ChannelCreated AFTER INSERT ON Channels FOR EACH ROW
 BEGIN
     INSERT INTO ChannelLog VALUES(

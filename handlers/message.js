@@ -12,7 +12,7 @@ module.exports = {
         
         client.on('messageDelete', (msg) => {
             if (msg.channel.type == 'text')
-            connector.deleteMessage(msg.id, msg.author.id, msg.channel.id, new Date(msg.createdAt), res);
+            connector.deleteMessage(msg.id, res);
         });
         
         client.on('messageUpdate', (msgOld, msgNew) => {

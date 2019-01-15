@@ -22,8 +22,8 @@ module.exports = {
     insertMessage: function(id, author, channel, time, cb) {
         connection.query('INSERT INTO Messages VALUES(?, ?, ?, ?)', [id, time, author, channel], cb);
     },
-    deleteMessage: function(id, author, channel, time, cb) {
-        connection.query('INSERT INTO MessageLog VALUES(\'MessageDeleted\', ?, ?, ?, ?)', [id, channel, author, time], cb);
+    deleteMessage: function(id, cb) {
+        connection.query('DELETE FROM Messages WHERE id = ?', [id], cb);
     },
     updateMessage: function(id, author, channel, time, cb) {
         connection.query('INSERT INTO MessageLog VALUES(\'MessageEdited\', ?, ?, ?, ?)', [id, channel, author, time], cb);
