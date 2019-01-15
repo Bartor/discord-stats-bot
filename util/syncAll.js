@@ -93,6 +93,7 @@ module.exports = function(client, callback) {
                                 eventConnector.deleteGuildUser(r.guildId, r.userId, cb);
                                 res.splice(res.indexOf(r), 1);
                             } else {
+                                //todo FIX THIS
                                 for (let [key, value] of client.guilds.get(r.guildId).members) { //key = clientId, value = client
                                     if (!(res.filter(e => e.guildId === r.guildId).map(e => e.userId).includes(key))) {
                                         console.log(`User ${key} is no longer a part of ${r.guildId}, deleting`);
