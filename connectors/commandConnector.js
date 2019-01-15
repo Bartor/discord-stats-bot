@@ -161,15 +161,15 @@ module.exports = {
         }
     },
 
-    getUserHistory: function(userId, cb) {
-
+    getUserHistory: function(guildId, user, cb) {
+        connection.query('SELECT event, G.nickname, userName, time FROM GuildUserLog G LEFT JOIN Users U ON G.user = U.id LEFT JOIN GuildUser GU ON G.user = GU.user WHERE G.guildId = ? AND G.user = ?', [guildId, user], cb);
     },
 
-    getChannelHistory: function(channelId, cb) {
-
+    getChannelHistory: function(guildId, channelId, cb) {
+        connection.query('SELECT event, name, time FROM ChannelLog WHERE guildId = ? AND channelId = ?', [guildId, channelId], cb);
     },
 
-    getGuildHistory: function(guildId, cd) {
-        
+    getGuildHistory: function(guildId, cb) {
+        connection.query('SELECT event, name, time FROM GuildLog WHERE guildId = ?', [guildId], cb);
     }
 };

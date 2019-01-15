@@ -23,26 +23,109 @@ module.exports = {
 
         let choice = words[1];
         let id = words[2];
-    
-        if (choice !== 'guild' && !(choice&&id)) {
-            msg.reply('Bad usage.');
-            return;
-        }
 
         try {
             if (choice === 'channel') {
-                id = parser.parseChannel(id).id;
+                id = parser.parseChannel(id, msg.guild).id;
             } else if (choice === 'user') {
-                id = parser.parseUser(id).id;
-            } else {
-                msg.reply('Bad usage.');
-                return;
+                id = parser.parseUser(id, msg.guild).id;
             }
         } catch(e) {
             msg.reply('Unrecognized author/channel.');
             return;
         }
 
-        
+        switch(choice) {
+            case 'guild': {
+                connector.getGuildHistory(msg.guild.id, (err, rows, fields) => {
+                    if (err) {
+                        msg.reply('Error occured, check console.');
+                        console.log(err);
+                    } else {
+                        msg.reply(decorator(fields, rows.map(e => {
+                            switch(e.event) {
+                                case 'GuildCreated': {
+                                    e.event = 'created';
+                                    break;
+                                }
+                                case 'GuildDeleted': {
+                                    e.event = 'deleted';
+                                    break;
+                                }
+                                case 'GuildNameChanged': {
+                                    e.event = 'renamed';
+                                    break;
+                                }
+                            }
+                            return e;
+                        })), {split: {
+                            prepend: "```html\n",
+                            append: '```'
+                        }});
+                    }
+                });
+                break;
+            }
+            case 'user': {
+                connector.getUserHistory(msg.guild.id, id, (err, rows, fields) => {
+                    if (err) {
+                        console.log(err);
+                        msg.reply('Error occured, check console.');
+                    } else {
+                        msg.reply(decorator(fields, rows.map(e => {
+                            switch (e.event) {
+                                case 'GuildUserNameChanged': {
+                                    e.event = 'chaned nick';
+                                    break;
+                                }
+                                case 'GuildUserCreated': {
+                                    e.event = 'joined';
+                                    break;
+                                }
+                                case 'GuildUserDeleted': {
+                                    e.event = 'left';
+                                    break;
+                                }
+                            }
+                            return e;
+                        })), {split: {
+                            prepend: '```html\n',
+                            append: '```'
+                        }});
+                    };
+                })
+                break;
+            }
+            case 'channel': {
+                connector.getChannelHistory(msg.guild.id, id, (err, rows, fields) => {
+                    if (err) {
+                        console.log(err);
+                        msg.reply('Error occured, check console.');
+                    } else {
+                        msg.reply(decorator(fields, rows.map(e => {
+                            switch (e.event) {
+                                case 'ChannelCreated': {
+                                    e.event = 'created';
+                                    break;
+                                }
+                                case 'ChannelNameChanged': {
+                                    e.event = 'renamed';
+                                    break;
+                                }
+                                case 'ChannelDeleted': {
+                                    e.event = 'deleted';
+                                    break;
+                                }
+                            }
+                            return e;
+                        })), {split: {
+                            prepend: '```html\n',
+                            append: '```'
+                        }});
+                    }
+                });
+                break;
+            }
+        }
     }
 }
