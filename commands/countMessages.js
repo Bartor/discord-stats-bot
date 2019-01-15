@@ -4,12 +4,12 @@ const parser = require('../util/parser');
 
 module.exports = {
     help: {
-        desc: "Counts messages",
+        desc: "Counts messages on the guild.",
         params: [
             {
                 name: "channels chan1,chan2,...",
                 desc: "filters results by channels given as a next parameter (no-space comma separated)",
-                req: false,
+                req: false
             },
             {
                 name: "authors auth1,auth2,...",
