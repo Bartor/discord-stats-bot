@@ -19,7 +19,7 @@ connection.connect((err) => {
 });
 
 module.exports = {
-    getMessageCount: function(guildId, channelIds, authorIds, from, to, cb) {
+    getMessageCount: function(guildId, channelIds, authorIds, from, to, group, cb) {
         let channelState = Array.isArray(channelIds);
         let authorState = Array.isArray(authorIds);
         let authorString = 'AND';
@@ -49,6 +49,21 @@ module.exports = {
             channelIds = [];
         }
 
-        connection.query(`SELECT COUNT(*) AS 'Count', name AS 'Channel' FROM Messages M JOIN Channels C ON M.channel = C.id WHERE guildId = ? AND time > ? AND time < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''} GROUP BY channel ORDER BY COUNT(*) DESC`, [guildId, from, to, ...authorIds, ...channelIds], cb);
+
+        switch(group) {
+            case 'channel': {
+                connection.query(`SELECT COUNT(*) AS 'Count', name AS 'Channel' FROM Messages M JOIN Channels C ON M.channel = C.id WHERE guildId = ? AND time > ? AND time < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''} GROUP BY channel ORDER BY COUNT(*) DESC`, [guildId, from, to, ...authorIds, ...channelIds], cb);
+                break;
+            }
+            case 'author': {
+                connection.query(`SELECT COUNT(*) AS 'Count', userName AS 'User', userTag AS 'Tag' FROM Messages M JOIN Users U ON M.author = U.id JOIN Channels C ON M.channel = C.id WHERE guildId = ? AND time > ? AND time < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''} GROUP BY author ORDER BY COUNT(*) DESC`, [guildId, from, to, ...authorIds, ...channelIds], cb);
+                break;
+            }
+            default: {
+                connection.query(`SELECT COUNT(*) AS 'Count' FROM Messages M JOIN Channels C ON M.channel = C.id WHERE guildId = ? AND time > ? AND time < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''}`, [guildId, from, to, ...authorIds, ...channelIds], cb);
+                break;
+            }
+        }
+
     }
 };

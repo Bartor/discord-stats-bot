@@ -3,12 +3,42 @@ const decorator = require('../util/decorator');
 const parser = require('../util/parser');
 
 module.exports = {
+    help: {
+        desc: "Counts messages",
+        params: [
+            {
+                name: "channels chan1,chan2,...",
+                desc: "filters results by channels given as a next parameter (no-space comma separated)",
+                req: false,
+            },
+            {
+                name: "authors auth1,auth2,...",
+                desc: "filters results by authors given as a next parameter (no-space comma separated)",
+                req: false
+            },
+            {
+                name: "from datestring",
+                desc: "filters results by allowing only those after datetime ('YYYY-MM-DDTHH-MM-SSZ')",
+                req: false
+            },
+            {
+                name: "to datestring",
+                desc: "filters results by allowing only those before datetime ('YYYY-MM-DDTHH-MM-SSZ')",
+                req: false            
+            },
+            {
+                name: "by 'channel'|'author'",
+                desc: "groups results by authors or channels, default is 'channel'",
+                req: false
+            }
+        ]
+    },
     run: function(msg) {
         let words = msg.content.toLowerCase().split(' ');
 
-        let channels = null, authors = null, from = new Date(0), to = new Date();
+        let channels = null, authors = null, from = new Date(0), to = new Date(), group = null;
 
-        for (let i = 0; i < words.length; i++) {
+        for (let i = 1; i < words.length; i++) {
             if (words[i] === 'channels') {
                 channels = words[i+1].split(',');
                 i++;
@@ -21,6 +51,12 @@ module.exports = {
             } else if (words[i] === 'to') {
                 to = new Date(words[i+1]);
                 i++;
+            } else if (words[i] === 'by') {
+                group = words[i+1] === 'author' ? 'author' : 'channel';
+                i++;
+            } else {
+                msg.reply('Malformed query');
+                return;
             }
         }
 
@@ -28,14 +64,13 @@ module.exports = {
             if (channels) channels = channels.map(e => parser.parseChannel(e, msg.guild).id);
             if (authors) authors = authors.map(e => parser.parseUser(e, msg.guild).id);
         } catch(e) {
-            console.log(e);
-            msg.reply('That\'t not a valid user/channel');
+            msg.reply('Unrecognized author/channel.');
             return;
         }
 
-        connector.getMessageCount(msg.guild.id, channels, authors, from, to, (err, rows, fields) => {
+        connector.getMessageCount(msg.guild.id, channels, authors, from, to, group, (err, rows, fields) => {
             if (err) {
-                msg.reply('Error occured, check console');
+                msg.reply('Malformed query.');
                 console.log(err);
             } else {
                 msg.reply(decorator(fields, rows));
