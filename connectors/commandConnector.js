@@ -65,5 +65,99 @@ module.exports = {
             }
         }
 
+    },
+
+    getEditsCount: function(guildId, channelIds, authorIds, from, to, group, cb) {
+        let channelState = Array.isArray(channelIds);
+        let authorState = Array.isArray(authorIds);
+        let authorString = 'AND';
+        let channelString = 'AND';
+
+        if (authorState) {
+            for (let i of authorIds.keys()) {
+                if (i != authorIds.length -1) {
+                    authorString += ' user = ? OR';
+                } else {
+                    authorString += ' user = ?';
+                }
+            }
+        } else {
+            authorIds = [];
+        }
+
+        if (channelState) {
+            for (let i of channelIds.keys()) {
+                if (i != channelIds.length -1) {
+                    channelString += ' channel = ?  OR';
+                } else {
+                    channelString += ' channel = ?';
+                }
+            }
+        } else {
+            channelIds = [];
+        }
+
+
+        switch(group) {
+            case 'channel': {
+                connection.query(`SELECT COUNT(*) AS 'Edits', name AS 'Channel' FROM MessageLog M JOIN Channels C ON M.channel = C.id WHERE guildId = ? AND event = 'MessageEdited' AND time > ? AND TIME < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''} GROUP BY channel ORDER BY COUNT(*) DESC`, [guildId, from, to, ...authorIds, ...channelIds], cb);
+                break;
+            }
+            case 'author': {
+                connection.query(`SELECT COUNT(*) AS 'Edits', username AS 'User' FROM MessageLog M JOIN Channels C ON M.channel = C.id JOIN Users U ON M.user = U.id WHERE guildId = ? AND event = 'MessageEdited' AND time > ? AND TIME < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''} GROUP BY user ORDER BY COUNT(*) DESC`, [guildId, from, to, ...authorIds, ...channelIds], cb);
+                break;
+            }
+            default: {
+                connection.query(`SELECT COUNT(*) AS 'Edits' FROM MessageLog M JOIN Channels C ON M.channel = C.id JOIN Users U ON M.user = U.id WHERE guildId = ? AND event = 'MessageEdited' AND time > ? AND TIME < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''} GROUP BY user ORDER BY COUNT(*) DESC`, [guildId, from, to, ...authorIds, ...channelIds], cb);
+                break;
+            }
+        }
+    },
+
+    getDeletionsCount: function(guildId, channelIds, authorIds, from, to, group, cb) {
+        let channelState = Array.isArray(channelIds);
+        let authorState = Array.isArray(authorIds);
+        let authorString = 'AND';
+        let channelString = 'AND';
+
+        if (authorState) {
+            for (let i of authorIds.keys()) {
+                if (i != authorIds.length -1) {
+                    authorString += ' user = ? OR';
+                } else {
+                    authorString += ' user = ?';
+                }
+            }
+        } else {
+            authorIds = [];
+        }
+
+        if (channelState) {
+            for (let i of channelIds.keys()) {
+                if (i != channelIds.length -1) {
+                    channelString += ' channel = ?  OR';
+                } else {
+                    channelString += ' channel = ?';
+                }
+            }
+        } else {
+            channelIds = [];
+        }
+
+
+        switch(group) {
+            case 'channel': {
+                connection.query(`SELECT COUNT(*) AS 'Deletions', name AS 'Channel' FROM MessageLog M JOIN Channels C ON M.channel = C.id WHERE guildId = ? AND event = 'MessageDeleted' AND time > ? AND TIME < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''} GROUP BY channel ORDER BY COUNT(*) DESC`, [guildId, from, to, ...authorIds, ...channelIds], cb);
+                break;
+            }
+            case 'author': {
+                connection.query(`SELECT COUNT(*) AS 'Deletions', username AS 'User' FROM MessageLog M JOIN Channels C ON M.channel = C.id JOIN Users U ON M.user = U.id WHERE guildId = ? AND event = 'MessageDeleted' AND time > ? AND TIME < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''} GROUP BY user ORDER BY COUNT(*) DESC`, [guildId, from, to, ...authorIds, ...channelIds], cb);
+                break;
+            }
+            default: {
+                connection.query(`SELECT COUNT(*) AS 'Deletions' FROM MessageLog M JOIN Channels C ON M.channel = C.id JOIN Users U ON M.user = U.id WHERE guildId = ? AND event = 'MessageDeleted' AND time > ? AND TIME < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''} GROUP BY user ORDER BY COUNT(*) DESC`, [guildId, from, to, ...authorIds, ...channelIds], cb);
+                break;
+            }
+        }
     }
 };
