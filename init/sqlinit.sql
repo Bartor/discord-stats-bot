@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS Guilds(
 
 CREATE TABLE IF NOT EXISTS GuildUser(
     guildId     VARCHAR(32)             NOT NULL,
-    userId      VARCHAR(32)             NOT NULL,
+    user      VARCHAR(32)             NOT NULL,
     nickname    VARCHAR(100)       DEFAULT NULL
 );
 
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS GuildLog(
 
 CREATE TABLE IF NOT EXISTS GuildUserLog(
     event       ENUM('GuildUserNameChanged', 'GuildUserCreated', 'GuildUserDeleted')    NOT NULL,
-    guildUser   VARCHAR(32)                                                                     NOT NULL,
+    user   VARCHAR(32)                                                                     NOT NULL,
     guildId     VARCHAR(32)                                                                      NOT NULL,
     nickname    VARCHAR(100)                                                            DEFAULT NULL,
     time       DATETIME                                                                   NOT NULL
@@ -146,7 +146,7 @@ CREATE TRIGGER GuildUserCreated AFTER INSERT ON GuildUser FOR EACH ROW
 BEGIN
     INSERT INTO GuildUserLog VALUES(
         'GuildUserCreated',
-        NEW.userId,
+        NEW.user,
         NEW.guildId,
         NEW.nickname,
         NOW()
@@ -157,7 +157,7 @@ CREATE TRIGGER GuildUserNameChanged AFTER UPDATE ON GuildUser FOR EACH ROW
 BEGIN
     INSERT INTO GuildUserLog VALUES(
         'GuildUserNameChanged',
-        NEW.userID,
+        NEW.user,
         NEW.guildId,
         NEW.nickname,
         NOW()
@@ -168,8 +168,8 @@ CREATE TRIGGER GuildUserDeleted AFTER DELETE ON GuildUser FOR EACH ROW
 BEGIN
     INSERT INTO GuildUserLog VALUES(
         'GuildUserDeleted',
-        OLD.userID,
-        NEW.guildId,
+        OLD.user,
+        OLD.guildId,
         OLD.nickname,
         NOW()
     );
