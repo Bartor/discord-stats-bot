@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS Messages(
 CREATE TABLE IF NOT EXISTS ChannelLog(
     event       ENUM('ChannelNameChanged', 'ChannelCreated', 'ChannelDeleted')  NOT NULL,
     guildId     VARCHAR(32)                                                             NOT NULL,
+    channelId   VARCHAR(32)                                                     NOT NULL,
     name        VARCHAR(100)                                                    NOT NULL,
     time       DATETIME                                                           NOT NULL
 );
@@ -87,6 +88,7 @@ BEGIN
     INSERT INTO ChannelLog VALUES(
         'ChannelCreated',
         NEW.guildId,
+        NEW.id,
         NEW.name,
         NOW()
     );
@@ -97,6 +99,7 @@ BEGIN
     INSERT INTO ChannelLog VALUES(
         'ChannelNameChanged',
         NEW.guildId,
+        NEW.id,
         NEW.name,
         NOW()
     );
@@ -107,6 +110,7 @@ BEGIN
     INSERT INTO ChannelLog VALUES(
         'ChannelDeleted',
         OLD.guildId,
+        OLD.id,
         OLD.name,
         NOW()
     );
