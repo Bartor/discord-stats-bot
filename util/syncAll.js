@@ -87,21 +87,20 @@ module.exports = function(client, callback) {
                     if (err) {
                         console.log(err);
                     } else {
-                        for (let r of res) { //r = {guildId:, userId:, nickname:}
-                            if (!client.guilds.has(r.guildId)) { //client.guilds = Map(guildId, guild)
-                                console.log(`Guild ${r.guildId} no longer exists, deleting its users`);
-                                eventConnector.deleteGuildUser(r.guildId, r.userId, cb);
-                                res.splice(res.indexOf(r), 1);
+                        for (let r of res) { //r = guildUser
+                            if (!client.guilds.has(r.guildId)) {
+                                console.log(`Guild ${r} no longer exists, deleting its user`);
+                                eventConnector.deleteGuildUser(r.guildId, r.user, cb);
                             } else {
-                                //todo FIX THIS
-                                for (let [key, value] of client.guilds.get(r.guildId).members) { //key = clientId, value = client
-                                    if (!(res.filter(e => e.guildId === r.guildId).map(e => e.userId).includes(key))) {
-                                        console.log(`User ${key} is no longer a part of ${r.guildId}, deleting`);
-                                        eventConnector.deleteGuildUser(r.guildId, key, cb);
-                                    } else if (value.nickname !== res.filter(e => e.userId === key && e.guildId === r.guildId)[0].nickname) {
-                                        console.log(`User ${key} nickname changed, updating`);
-                                        eventConnector.updateGuildUser(r.guildId, key, value.nickname, cb);
+                                let guild = client.guilds.get(r.guildId);
+                                if (guild.members.has(r.user)) {
+                                    if (guild.members.get(r.user).nickname !== r.nickname) {
+                                        console.log(`User ${r.user} changed its nickname, updating`);
+                                        eventConnector.updateGuildUser(r.guildId, r.user, guild.members.get(r.user).nickname, cb);
                                     }
+                                } else {
+                                    console.log(`User ${r.user} is no longer part of ${r.guildId}, deleting`);
+                                    eventConnector.deleteGuildUser(r.guildId, r.user, cb);
                                 }
                             }
                         }
@@ -111,7 +110,7 @@ module.exports = function(client, callback) {
                         for (let [k, v] of value.members) {
                             let flag = false;
                             for (let r of res) {
-                                if (r.guildId === key && r.userId === k) {
+                                if (r.guildId === key && r.user === k) {
                                     flag = true;
                                     break;
                                 }
