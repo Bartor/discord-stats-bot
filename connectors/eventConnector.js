@@ -63,7 +63,7 @@ module.exports = {
         connection.query('INSERT INTO GuildUser VALUES(?, ?, ?)', [gid, uid, name], cb);
     },
     updateGuildUser: function(gid, uid, name, cb) {
-        connection.query('UPDATE GuildUser SET name = ? WHERE guildId = ? AND userId = ?', [name, gid, uid], cb);
+        connection.query('UPDATE GuildUser SET nickname = ? WHERE guildId = ? AND userId = ?', [name, gid, uid], cb);
     },
     deleteGuildUser: function(gid, uid, cb) {
         connection.query('DELETE FROM GuildUser WHERE guildId = ? AND userId = ?', [gid, uid], cb);

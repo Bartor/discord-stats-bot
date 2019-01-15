@@ -159,5 +159,17 @@ module.exports = {
                 break;
             }
         }
+    },
+
+    getUserHistory: function(userId, cb) {
+
+    },
+
+    getChannelHistory: function(channelId, cb) {
+
+    },
+
+    getGuildHistory: function(guildId, cd) {
+        
     }
 };
