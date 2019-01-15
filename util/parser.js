@@ -11,7 +11,6 @@ module.exports = {
         }
         
         for (let [mid, member] of guild.members) {
-            console.log(member.displayName);
             if (mid == id || member.displayName.toLowerCase() === nickname || (member.client.user.discriminator === discriminator && member.client.user.username.toLowerCase() === username)) {
                 return member;
             }
