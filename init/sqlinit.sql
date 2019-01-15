@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS GuildLog(
 CREATE TABLE IF NOT EXISTS GuildUserLog(
     event       ENUM('GuildUserNameChanged', 'GuildUserCreated', 'GuildUserDeleted')    NOT NULL,
     guildUser   VARCHAR(32)                                                                     NOT NULL,
+    guildId     VARCHAR(32)                                                                      NOT NULL,
     nickname    VARCHAR(100)                                                            DEFAULT NULL,
     time       DATETIME                                                                   NOT NULL
 );
@@ -146,6 +147,7 @@ BEGIN
     INSERT INTO GuildUserLog VALUES(
         'GuildUserCreated',
         NEW.userId,
+        NEW.guildId,
         NEW.nickname,
         NOW()
     );
@@ -156,6 +158,7 @@ BEGIN
     INSERT INTO GuildUserLog VALUES(
         'GuildUserNameChanged',
         NEW.userID,
+        NEW.guildId,
         NEW.nickname,
         NOW()
     );
@@ -166,6 +169,7 @@ BEGIN
     INSERT INTO GuildUserLog VALUES(
         'GuildUserDeleted',
         OLD.userID,
+        NEW.guildId,
         OLD.nickname,
         NOW()
     );
