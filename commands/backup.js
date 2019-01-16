@@ -1,8 +1,5 @@
-const mysqldump = require('mysqldump');
+const { exec } = require('child_process');
 const fs = require('fs');
-
-const decorator = require('../util/decorator');
-const parser = require('../util/parser');
 
 module.exports = {
     help: {
@@ -21,15 +18,13 @@ module.exports = {
                 msg.reply('Error occured, check console.');
             } else {
                 let user = JSON.parse(data);
-                mysqldump({
-                    connection: {
-                        host: user.host,
-                        port: user.port,
-                        user: user.user,
-                        password: user.password,
-                        database: "DiscordStats"
-                    },
-                    dumpToFile: `./dump${new Date().getTime()}`
+                exec(`mysqldump DiscordStats --host=${user.host} --port=${user.port} --user=${user.user} --password=${user.password} --result-file=dump${new Date().getTime()}.sql`, (err, stdout, stderr) => {
+                    if (err) {
+                        console.log(err);
+                        msg.reply('Error occured, check conole; make sure that mysqldump is in the system variables');
+                    } else {
+                        msg.reply('Backup successful.');
+                    }
                 });
             }
         });
