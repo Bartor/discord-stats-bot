@@ -39,12 +39,16 @@ module.exports = {
                 console.log(err);
             } else {
                 let users = JSON.parse(data);
-                users.push({login: id, password: pass});
-                fs.writeFile('config/dbUsers.json', JSON.stringify(users), (err) => {
-                    if (err) {
-                        console.log(err);
-                    }
-                });
+                let flag = false;
+                for (let u of users) if(u.login == id) flag = true;
+                if (!flag) {
+                    users.push({login: id, password: pass});
+                    fs.writeFile('config/dbUsers.json', JSON.stringify(users), (err) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                }
             }
         })
         connection.query(`CREATE VIEW ${'v'+id} AS SELECT 
