@@ -7,7 +7,7 @@ module.exports = {
             connector.insertGuild(guild.id, guild.name, guild.owner.id, res);
             console.log('Syncing data...');
 
-            require('./util/syncAll')(client, (r) => {
+            require('../util/syncAll')(client, (r) => {
                 r ? console.log('Synced') : console.log('Sync error!');
             });
         });

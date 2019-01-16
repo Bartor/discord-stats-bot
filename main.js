@@ -3,8 +3,6 @@ const discord = require('discord.js');
 const express = require('express');
 const path = require('path');
 
-const interpreter = require('./messageInterpreter');
-
 const indexRouter = require('./web/routers/index');
 
 const discordConfig = JSON.parse(fs.readFileSync('config/discord.json'));
