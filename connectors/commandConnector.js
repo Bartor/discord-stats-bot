@@ -108,7 +108,7 @@ module.exports = {
                 break;
             }
             default: {
-                connection.query(`SELECT COUNT(*) AS 'Edits' FROM MessageLog M JOIN Channels C ON M.channel = C.id JOIN Users U ON M.user = U.id WHERE guildId = ? AND event = 'MessageEdited' AND time > ? AND TIME < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''} GROUP BY user ORDER BY COUNT(*) DESC`, [guildId, from, to, ...authorIds, ...channelIds], cb);
+                connection.query(`SELECT COUNT(*) AS 'Edits' FROM MessageLog M JOIN Channels C ON M.channel = C.id JOIN Users U ON M.user = U.id WHERE guildId = ? AND event = 'MessageEdited' AND time > ? AND TIME < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''}`, [guildId, from, to, ...authorIds, ...channelIds], cb);
                 break;
             }
         }
@@ -155,7 +155,7 @@ module.exports = {
                 break;
             }
             default: {
-                connection.query(`SELECT COUNT(*) AS 'Deletions' FROM MessageLog M JOIN Channels C ON M.channel = C.id JOIN Users U ON M.user = U.id WHERE guildId = ? AND event = 'MessageDeleted' AND time > ? AND TIME < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''} GROUP BY user ORDER BY COUNT(*) DESC`, [guildId, from, to, ...authorIds, ...channelIds], cb);
+                connection.query(`SELECT COUNT(*) AS 'Deletions' FROM MessageLog M JOIN Channels C ON M.channel = C.id JOIN Users U ON M.user = U.id WHERE guildId = ? AND event = 'MessageDeleted' AND time > ? AND TIME < ? ${authorState ? authorString : ''} ${channelState ? channelString : ''}`, [guildId, from, to, ...authorIds, ...channelIds], cb);
                 break;
             }
         }

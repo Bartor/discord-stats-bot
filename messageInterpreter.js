@@ -17,7 +17,7 @@ function help(msg) {
     } else {
         let cmd = words[1];
         for (let [k, v] of commands) {
-            if (k.startsWith(cmd)) {
+            if (k.split('.')[0] === cmd) {
                 cmd = v;
                 break;
             }
@@ -44,7 +44,7 @@ module.exports = {
             return;
         }
         for (let [key, value] of commands) {
-            if (key.startsWith(msg.content.split(' ')[0])) {
+            if (key.split('.')[0] === msg.content.split(' ')[0]) {
                 value.run(msg);
             }
         }

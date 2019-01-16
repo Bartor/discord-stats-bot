@@ -4,6 +4,7 @@ const res = require('../util/dbResponseHandler');
 module.exports = {
     register: function(client) {
         client.on('guildMemberAdd', (member) => {
+            console.log('xD');
             connector.insertUser(member.id, member.client.user.username, member.client.user.discriminator, res);
             connector.insertGuildUser(member.guild.id, member.id, member.nickname, res);
         });
