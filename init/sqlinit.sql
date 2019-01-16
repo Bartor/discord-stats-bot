@@ -5,7 +5,7 @@ CREATE DATABASE IF NOT EXISTS DiscordStats;
 USE DiscordStats;
 CREATE USER IF NOT EXISTS 'DiscordStatsBot'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234';
 GRANT SELECT, INSERT, UPDATE, DELETE, DROP ON DiscordStats.* TO 'DiscordStatsBot'@'localhost';
-GRANT CREATE VIEW, CREATE USER, GRANT, FILE, LOCK TABLES OPTION ON *.* TO 'DiscordStatsBot'@'localhost';
+GRANT CREATE VIEW, CREATE USER, GRANT OPTION, FILE, LOCK TABLES ON *.* TO 'DiscordStatsBot'@'localhost';
 FLUSH PRIVILEGES;
 
 CREATE TABLE IF NOT EXISTS Users(
