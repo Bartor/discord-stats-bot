@@ -1,0 +1,17 @@
+doctype html
+html
+    head
+        title DiscordStatsBot
+        link(rel='stylesheet', href='/index.css')
+        link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=KoHo')
+    body
+        .flex-container
+            .item DiscordStatsBot
+            .item
+                p #{text}
+                #guildList
+                    if status
+                        each element in data
+                            a.center #{element.name}: #{element.count}
+                    else
+                        p Db error
