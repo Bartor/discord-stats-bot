@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^11.4.2",
-    "mysql2": "^1.6.4"
+    "mysql2": "^1.6.4",
+    "mysqldump": "^2.2.1"
   }
 }
