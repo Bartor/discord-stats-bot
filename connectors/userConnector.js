@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const db = require('mysql2');
+const mysql = require('mysql2');
 const config = JSON.parse(fs.readFileSync('config/db.json'));
 
 module.exports = {
@@ -12,19 +12,21 @@ module.exports = {
                 let users = JSON.parse(data);
                 for (let u of users) {
                     if (u.login === msg.guild.id) {
-                        db.createConnection({
+                        let conn = mysql.createConnection({
                             host: config.host,
                             port: config.port,
                             user: u.login,
                             password: u.password,
                             database: "DiscordStats"
-                        }, (err, con) => {
+                        });
+                        conn.connect((err) => {
                             if(err) {
                                 console.log(err);
                             } else {
-                                con.query(query, [], cb);
+                                conn.query(query, [], cb);
                             }
                         });
+                        break;
                     }
                 }
             }
