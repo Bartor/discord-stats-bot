@@ -37,9 +37,9 @@ function main() {
                                     password: rootpswd
                                 });
     
-                                fs.writeFileSync('sqlinit.sql', fs.readFileSync('sqlinit.sql', 'utf8').replace("???", config.password));
+                                fs.writeFileSync('sql.sql', fs.readFileSync('sqlinit.sql', 'utf8').replace("???", config.password));
 
-                                connection.query('source ' + __dirname + '\\' + 'sqlinit.sql', (err, rows, fields) => {
+                                connection.query('\\. ' + __dirname.replace(/\\/g, '\\\\') + '\\\\' + 'sql.sql', (err, rows, fields) => {
                                     if (err) console.log(err);
                                     else {
                                         console.log(rows, fields);
