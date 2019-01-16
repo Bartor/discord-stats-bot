@@ -1,7 +1,7 @@
 let fs = require('fs');
 let readline = require('readline');
+let { exec } = require('child_process');
 
-let db = require('mysql2');
 let discord = require('discord.js');
 
 function main() {
@@ -30,19 +30,14 @@ function main() {
     
                                 if (!fs.existsSync('..\\config')) fs.mkdirSync('..\\config');
     
-                                const connection = db.createConnection({
-                                    host: config.host,
-                                    port: config.port,
-                                    user: root,
-                                    password: rootpswd
-                                });
-    
                                 fs.writeFileSync('sql.sql', fs.readFileSync('sqlinit.sql', 'utf8').replace("???", config.password));
 
-                                connection.query('\\. ' + __dirname.replace(/\\/g, '\\\\') + '\\\\' + 'sql.sql', (err, rows, fields) => {
-                                    if (err) console.log(err);
-                                    else {
-                                        console.log(rows, fields);
+                                exec(`mysql --host=${config.host} --port=${config.port} --user=${root} --password=${rootpswd} < ${__dirname.replace(/\\/g, '\\\\') + '\\\\' + 'sql.sql'}`, (err, stdout, stderr) => {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        console.log(stdout);
+                                        console.log(stderr);
                                     }
                                 });
                             });
