@@ -1,0 +1,39 @@
+doctype html
+html
+    head
+        title DiscordStatsBot
+        link(rel='stylesheet', href='/index.css')
+        link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=KoHo')
+    body
+        .main-container.white
+            .container.space
+                p.strong Discord Stats Bot
+                .end
+                    a.white(href='/') Guilds
+                    | 
+                    |
+                    a >
+                    |
+                    |
+                    a.white(href=`/g/${guildId}/`) #{guild}
+                    |
+                    |
+                    a > #{day}
+            .container.column
+                p Messages per user
+                .diagram.row-reverse.space
+                    each element in users
+                        .item.column.flex-one.end
+                            a.bar.center.white(style={
+                                height: (element[1]*100/maxUser)+"%"
+                            }) #{element[1] == 0 ? '' : element[1]}
+                            a.center #{element[0]}
+                br            
+                p Activity - messages per hour
+                .diagram.row.space
+                    each element in stats
+                        .item.column.flex-one.end
+                            a.bar.center.white(style={
+                                height: (element[1]*100/maxStat)+"%"
+                            }) #{element[1] == 0 ? '' : element[1]}
+                            a.center #{element[0]}

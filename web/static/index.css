@@ -58,6 +58,8 @@ p {
 }
 
 .diagram {
+    overflow-x: auto;
+    overflow-y: hidden;
     height: 300px;
 }
 
@@ -117,6 +119,11 @@ p {
 
 .strong {
     font-weight: bold;
+}
+
+.consolas {
+    font-family: monospace;
+    size: 12px;
 }
 
 #guildList {
