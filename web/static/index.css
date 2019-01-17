@@ -2,11 +2,22 @@
     box-sizing: border-box;
 }
 
+body, html {
+    overflow: hidden;
+    height: 100%;
+    background-color: #333;
+    font-family: "KoHo", sans-serif;
+}
+
+p {
+    margin: 0;
+}
+
 .center {
     text-align: center;
 }
 
-.flex-container {
+.main-container {
     height: 100%;
     display: flex;
     flex-flow: column;
@@ -14,29 +25,79 @@
     justify-content: center;
 }
 
-.item {
+.container {
     margin: 10px;
     width: 50vw;
     display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
     padding: 10px;
     background-color: #444;
-    color: white;
+}
+
+.list {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 300px;
+    margin-top: 5px;
+}
+
+.list > *:nth-child(2n+1) {
+    background-color: #555;
+    padding: 5px;
+    display: flex;
+}
+
+.list > *:nth-child(2n) {
+    background-color: #666;
+    padding: 5px;
+    display: flex;
+}
+
+.list > *:first-child {
+    position: sticky;
+    background-color: #555;
+}
+
+.diagram > .item {
+    background-color: #333;
+}
+
+.flex-one {
+    flex: 1 1;
+}
+
+.flex-two {
+    flex: 2 1;
+}
+
+.column {
+    flex-flow: column;
+}
+
+.space {
+    justify-content: space-between;
 }
 
 .white {
     color: white;
 }
 
-body, html {
-    height: 100%;
-    background-color: #333;
-    font-family: "KoHo", sans-serif;
+.strong {
+    font-weight: bold;
 }
 
 #guildList {
     display: flex;
     flex-flow: column;
+}
+
+@media only screen and (max-width: 1000px) {
+    .container {
+        width: 80vw;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .container {
+        width: 100vw;
+    }
 }

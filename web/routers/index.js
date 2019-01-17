@@ -6,20 +6,40 @@ router.get('/', (req, res) => {
     connector.getAllGuilds((err, rows, fields) => {
         if (err) {
             console.log(err);
-            res.render('index', {status: false, text: "", data: []});
+            res.render('index', {data: []});
         } else {
-            res.render('index', {status: true, text: "Tracked guilds:", data: rows});
+            res.render('index', {data: rows});
         }
     });
 });
 
 router.get('/g/:id', (req, res) => {
-    connector.getAllChannels(req.params.id, (err, rows, fields) => {
+    connector.getAllChannels(req.params.id, (err, channels, fields) => {
         if (err) {
             console.log(err); 
-            res.render('guild', {status: false, text: "", data: []});
+            res.render('guild', {data: []});
         } else {
-            res.render('guild', {status: true, text: "Channels:", data: rows});
+            connector.getMessFromWeek(req.params.id, (err, days, fields) => {
+                if (err) {
+                    console.log(err);
+                    res.render('guild', {data: []});
+                } else {
+                    let weekStats = [];
+                    for (let i = 0; i < 7; i++) {
+                        let dUp = new Date();
+                        let dDown = new Date();
+                        dUp.setHours(23,59,59,999);
+                        dDown.setHours(23,59,59,999);
+                        dUp = dUp.setDate(dUp.getDate() - i);
+                        dDown = dDown.setDate(dDown.getDate() - i - 1);
+                        weekStats.push([
+                            d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear(),
+                            days.filter(e => (e.time > dDown && e.time < d.dUp)).lenght
+                        ]);
+                    }
+                    res.render('guild', {data: channels, stats: weekStats, max: Math.max(...weekStats.map(e => e[1]))});
+                }
+            });
         }
     });
 });

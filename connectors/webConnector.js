@@ -20,7 +20,7 @@ connection.connect((err) => {
 
 module.exports = {
     getAllChannels: function(guildId, cb) {
-        connection.query('SELECT * FROM Channels WHERE guildId = ?', [guildId], cb);
+        connection.query('SELECT C.name AS channelName, C.id AS channelId, G.name AS guildName, C.type AS type FROM Channels C JOIN Guilds G ON C.guildId = G.id WHERE guildId = ?', [guildId], cb);
     },
     getAllGuildUsers: function(guildId, cb) {
         connection.query('SELECT * FROM GuildUser GU JOIN U ON GU.user = U.id WHERE guildId = ?', [guildId], cb);
@@ -36,5 +36,8 @@ module.exports = {
     },
     getAllMessCount: function(channelId, cb) {
         connection.query('SELECT COUNT(*) AS Count FROM Messages WHERE channel = ?', [channelId], cb);
+    },
+    getMessFromWeek: function(guildId, cb) {
+        connection.query('SELECT M.time AS time FROM Messages M JOIN Channels C ON M.channel = C.id JOIN Guilds G ON C.guildID = G.id WHERE time > DATE_SUB(NOW(), INTERVAL 1 week) AND guildId = ?', [guildId], cb);
     }
 }
