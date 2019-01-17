@@ -25,7 +25,12 @@ html
                             a.flex-two.white(href='/c/'+element.channelId) #{element.channelName}
                             p.flex-one #{element.type}
                             p.flex-one #{element.channelId}
-                p Activity
-                .diagram
+                br
+                p Activity - messages per day
+                .diagram.row-reverse.space
                     each element in stats
-                        .item
+                        .item.column.flex-one.end
+                            a.bar.center.white(style={
+                                height: (element[1]*100/max)+"%"
+                            }, href=`day/${element[2]}/`) #{element[1] == 0 ? '' : element[1]}
+                            a.center #{element[0]}

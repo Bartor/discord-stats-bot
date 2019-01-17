@@ -57,8 +57,23 @@ p {
     background-color: #555;
 }
 
-.diagram > .item {
+.diagram {
+    height: 300px;
+}
+
+.diagram > .item > .bar {
+    padding: 5px;
     background-color: #333;
+    display: inline;
+}
+
+.diagram > .item > .bar:hover {
+    background-color: #555;
+}
+
+.diagram > .item {
+    height: 100%;
+    margin: 5px;
 }
 
 .flex-one {
@@ -70,7 +85,26 @@ p {
 }
 
 .column {
+    display: flex;
     flex-flow: column;
+}
+
+.row {
+    display: flex;
+    flex-flow: row;
+}
+
+.row-reverse {
+    display: flex;
+    flex-flow: row-reverse;
+}
+
+.end {
+    justify-content: flex-end;
+}
+
+.strech {
+    align-items: stretch;
 }
 
 .space {

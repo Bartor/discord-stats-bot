@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/g/:id', (req, res) => {
+router.get('/g/:id/', (req, res) => {
     connector.getAllChannels(req.params.id, (err, channels, fields) => {
         if (err) {
             console.log(err); 
@@ -30,11 +30,12 @@ router.get('/g/:id', (req, res) => {
                         let dDown = new Date();
                         dUp.setHours(23,59,59,999);
                         dDown.setHours(23,59,59,999);
-                        dUp = dUp.setDate(dUp.getDate() - i);
-                        dDown = dDown.setDate(dDown.getDate() - i - 1);
+                        dUp.setDate(dUp.getDate() - i);
+                        dDown.setDate(dDown.getDate() - i - 1);
                         weekStats.push([
-                            d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear(),
-                            days.filter(e => (e.time > dDown && e.time < d.dUp)).lenght
+                            dUp.getDate() + "-" + (dUp.getMonth()+1) + "-" + dUp.getFullYear(),
+                            days.filter(e => (e.time > dDown && e.time < dUp)).length,
+                            dUp.getTime()
                         ]);
                     }
                     res.render('guild', {data: channels, stats: weekStats, max: Math.max(...weekStats.map(e => e[1]))});
@@ -44,7 +45,7 @@ router.get('/g/:id', (req, res) => {
     });
 });
 
-router.get('/c/:id', (req, res) => {
+router.get('/c/:id/', (req, res) => {
     connector.getAllDelsCount(req.params.id, (err, rows, fields) => {
         if (err) {
             console.log(err); 
