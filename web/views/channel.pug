@@ -5,13 +5,48 @@ html
         link(rel='stylesheet', href='/index.css')
         link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=KoHo')
     body
-        .flex-container
-            .item DiscordStatsBot
-            .item
-                p #{text}
-                #guildList
-                    if status
-                        each element in data
-                            a.center #{element.name}: #{element.count}
-                    else
-                        p Db error
+        .main-container.white
+            .container.space
+                p.strong Discord Stats Bot
+                .end
+                    a.white(href='/') Guilds
+                    | 
+                    | >
+                    |
+                    a.white(href=`/g/${guildId}/`) #{guildName}
+                    |
+                    |
+                    a > #{channelName}
+            .container.column
+                p Stats
+                .list
+                    .item
+                        p.flex-two.strong Type
+                        p.flex-one.strong Count
+                    .item
+                        p.flex-two Messages
+                        p.flex-one.consolas #{messCount}
+                    .item
+                        p.flex-two Deletions
+                        p.flex-one.consolas #{delCount}
+                    .item
+                        p.flex-two Edits
+                        p.flex-one.consolas #{ediCount}
+                br
+                p Messages per user
+                if users.length !== 0
+                    .diagram.row-reverse.space
+                        each element in users
+                            .item.column.flex-one.end
+                                if element[1] === 0
+                                    .bar-container
+                                        a.bar.white
+                                    a.label #{element[0]}
+                                else
+                                    .bar-container
+                                        a.bar.white(style={
+                                            height: (element[1]*90/max)+"%"
+                                        }) #{element[1]}
+                                    a.label #{element[0]}
+                else
+                    p.consolas noone wrote anything

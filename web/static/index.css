@@ -72,17 +72,31 @@ p {
     height: 300px;
 }
 
-.diagram > .item > .bar {
-    padding: 5px;
-    background-color: #333;
-    display: inline;
+.bar-container {
+    flex: 1 1;
+    display: flex;
+    align-items: flex-end;
 }
 
-.diagram > .item > .bar:hover {
+.diagram > .item > .label {
+    flex: 0 1;
+    text-align: center;
+}
+
+.bar {
+    width: 100%;
+    text-align: center;
+    padding: 5px;
+    background-color: #333;
+}
+
+.bar:hover {
     background-color: #555;
 }
 
 .diagram > .item {
+    display: flex;
+    flex-flow: column;
     height: 90%;
     margin: 5px;
 }

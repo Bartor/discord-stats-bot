@@ -22,7 +22,7 @@ html
                         p.flex-one.string ID
                     each element in data
                         .item
-                            a.flex-two.white(href='/c/'+element.channelId) #{element.channelName}
+                            a.flex-two.white(href=`/c/${element.channelId}/`) #{element.channelName}
                             p.flex-one #{element.type}
                             p.flex-one.consolas #{element.channelId}
                 br
@@ -30,7 +30,13 @@ html
                 .diagram.row-reverse.space
                     each element in stats
                         .item.column.flex-one.end
-                            a.bar.center.white(style={
-                                height: (element[1]*90/max)+"%"
-                            }, href=`day/${element[2]}/`) #{element[1] == 0 ? '' : element[1]}
-                            a.center #{element[0]}
+                            if element[1] === 0
+                                .bar-container
+                                    a.bar.white
+                                a.label #{element[0]}
+                            else
+                                .bar-container
+                                    a.bar.white(style={
+                                        height: (element[1]*90/max)+"%"
+                                    }, href=`day/${element[2]}/`) #{element[1]}
+                                a.label #{element[0]}
