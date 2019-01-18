@@ -13,12 +13,14 @@ CREATE TABLE IF NOT EXISTS Users(
     userName    VARCHAR(32)     NOT NULL,
     userTag     VARCHAR(6)      NOT NULL
 );
+CREATE INDEX userid USING HASH ON Users(id);
 
 CREATE TABLE IF NOT EXISTS Guilds(
     id          VARCHAR(32)     NOT NULL PRIMARY KEY,
     name        VARCHAR(100)    NOT NULL,
     ownerID     VARCHAR(32)     NOT NULL
 );
+CREATE INDEX guildid USING HASH ON Guilds(id);
 
 CREATE TABLE IF NOT EXISTS GuildUser(
     guildId     VARCHAR(32)     NOT NULL,
@@ -32,6 +34,7 @@ CREATE TABLE IF NOT EXISTS Channels(
     guildId     VARCHAR(32)             NOT NULL,
     type        ENUM('Voice', 'Text')   NOT NULL
 );
+CREATE INDEX channelid USING HAS ON Channels(id);
 
 CREATE TABLE IF NOT EXISTS Messages(
     id      VARCHAR(32)     NOT NULL,
