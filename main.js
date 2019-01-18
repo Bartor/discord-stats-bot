@@ -9,12 +9,12 @@ const discordConfig = JSON.parse(fs.readFileSync('config/discord.json'));
 
 const bot = new discord.Client();
 
-// bot.login(discordConfig.token).then(reply => {
-//     console.log('Connection established');
-// }).catch(err => {
-//     console.log(err);
-//     process.exit();
-// });
+bot.login(discordConfig.token).then(reply => {
+    console.log('Connection established');
+}).catch(err => {
+    console.log(err);
+    process.exit();
+});
 
 let app = express();
 

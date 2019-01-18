@@ -31,6 +31,6 @@ html
                     each element in stats
                         .item.column.flex-one.end
                             a.bar.center.white(style={
-                                height: (element[1]*100/max)+"%"
+                                height: (element[1]*90/max)+"%"
                             }, href=`day/${element[2]}/`) #{element[1] == 0 ? '' : element[1]}
                             a.center #{element[0]}

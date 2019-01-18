@@ -13,6 +13,15 @@ p {
     margin: 0;
 }
 
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+}
+
 .center {
     text-align: center;
 }
@@ -59,7 +68,7 @@ p {
 
 .diagram {
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
     height: 300px;
 }
 
@@ -74,7 +83,7 @@ p {
 }
 
 .diagram > .item {
-    height: 100%;
+    height: 90%;
     margin: 5px;
 }
 

@@ -25,15 +25,15 @@ html
                     each element in users
                         .item.column.flex-one.end
                             a.bar.center.white(style={
-                                height: (element[1]*100/maxUser)+"%"
+                                height: (element[1]*90/maxUser)+'%'
                             }) #{element[1] == 0 ? '' : element[1]}
                             a.center #{element[0]}
-                br            
+                br
                 p Activity - messages per hour
                 .diagram.row.space
                     each element in stats
                         .item.column.flex-one.end
                             a.bar.center.white(style={
-                                height: (element[1]*100/maxStat)+"%"
+                                height: (element[1]*90/maxStat)+'%'
                             }) #{element[1] == 0 ? '' : element[1]}
                             a.center #{element[0]}
