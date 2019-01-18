@@ -39,5 +39,8 @@ module.exports = {
     },
     getChannelGuildInfo: function (channelId, cb) {
         connection.query('SELECT C.name AS channelName, G.id AS guildId, G.name AS guildName FROM Channels C JOIN Guilds G ON C.guildId = G.id WHERE C.id = ?', [channelId], cb);
+    },
+    getSchema(cb) {
+        connection.query('SELECT table_name, column_name FROM `INFORMATION_SCHEMA`.`columns` WHERE table_schema = "discordstats" AND table_name not like "v%"', [], cb);
     }
 }
