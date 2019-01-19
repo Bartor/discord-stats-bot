@@ -19,7 +19,7 @@ router.get('/:id/', (req, res) => {
             let topUsers = {};
             for (let m of messages) {
                 if (topUsers[m.userName] !== undefined) topUsers[m.userName]++;
-                else topUsers[m.userName] = 0;
+                else topUsers[m.userName] = 1;
             }
             topUsers = Object.entries(topUsers).sort((a, b) => b[1] - a[1]);
 

@@ -12,14 +12,22 @@ html
                 p.strong Discord Stats Bot
                 a Advanced queries
             .container.column
-                p Show me:
-                br
                 .row
-                    p Table
-                    select.margin-sides#tables
-                        each element in tables
-                            option(value=element).consolas #{element}
-                    p fields
-                    .column#fieldList
-                        select.margin-sides
-                    a.white.strong(href='#', onclick='addField()', style={'text-decoration': 'none'}) +
+                    .column.flex-one
+                        p Choose
+                        br
+                        .row
+                            p Table
+                            select.margin-sides#tables
+                                each element in tables
+                                    option(value=element).consolas #{element}
+                            p fields
+                            .column#fieldList
+                            a.white.strong(href='#', onclick='addField()', style={'text-decoration': 'none'}) +
+                        br
+                        p Write
+                        br
+                        input#query(type='text')
+                    input(type='button', value='QUERY')
+                p Results
+                .list#results

@@ -13,10 +13,16 @@ p {
     margin: 0;
 }
 
-select {
-    background-color: #444;
+select, input {
+    background-color: #555;
     border: none;
     color: #fff;
+    height: 24px;
+    margin: 0;
+}
+
+input:active {
+    background-color: #444;
 }
 
 ::-webkit-scrollbar {
@@ -134,6 +140,10 @@ select {
     justify-content: flex-end;
 }
 
+.start {
+    align-items: flex-start;
+}
+
 .strech {
     align-items: stretch;
 }
@@ -162,6 +172,10 @@ select {
 #guildList {
     display: flex;
     flex-flow: column;
+}
+
+#fieldList > select {
+    margin-bottom: 2px;
 }
 
 @media only screen and (max-width: 1000px) {
