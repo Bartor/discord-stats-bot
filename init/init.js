@@ -16,7 +16,7 @@ function main() {
     
     readStream.question('Discord bot token: ', (a1) => {
         new discord.Client().login(a1).then(s => {
-            config.key = a1;
+            let key = a1;
             readStream.question('MySQL host (leave blank for localhost): ', (a2) => {
                 config.host = a2 || 'localhost';
                 readStream.question('MySQL port (leave blank for 3306): ', (a3) => {
@@ -28,16 +28,27 @@ function main() {
                             readStream.question('Bot user pswd (for manual debug): ', (a6) => {
                                 config.password = a6;
     
-                                if (!fs.existsSync('..\\config')) fs.mkdirSync('..\\config');
+                                if (!fs.existsSync('../config')) fs.mkdirSync('../config');
     
                                 fs.writeFileSync('sql.sql', fs.readFileSync('sqlinit.sql', 'utf8').replace("???", config.password));
 
                                 exec(`mysql --host=${config.host} --port=${config.port} --user=${root} --password=${rootpswd} < ${__dirname.replace(/\\/g, '\\\\') + '\\\\' + 'sql.sql'}`, (err, stdout, stderr) => {
                                     if (err) {
                                         console.log(err);
+                                        process.exit();
                                     } else {
                                         console.log(stdout);
                                         console.log(stderr);
+
+                                        config.user = 'DiscordStatsBot';
+                                        config.webuser = 'DiscordStatsWeb';
+
+                                        fs.writeFileSync('../config/db.json', JSON.stringify(config));
+                                        fs.writeFileSync('../config/discord.json', JSON.stringify({token: key}));
+
+                                        console.log('Configuration files saved to ../config');
+                                        console.log('Exiting, please run main to start the bot next time');
+                                        process.exit();
                                     }
                                 });
                             });
