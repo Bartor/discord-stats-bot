@@ -89,10 +89,10 @@ router.get('/:id/day/:time/', (req, res) => {
 
         let topUsers = {};
         for (let m of rows) {
-            if (topUsers[m.userName] !== undefined) topUsers[m.userName]++;
-            else topUsers[m.userName] = 1;
+            if (topUsers[m.userName] !== undefined) topUsers[m.userName].count++;
+            else topUsers[m.userName] = {count: 1, id: m.id};
         }
-        topUsers = Object.entries(topUsers).sort((a, b) => b[1] - a[1]);
+        topUsers = Object.entries(topUsers).sort((a, b) => b[1].count - a[1].count);
 
         res.render('guildDay', {
             day: `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`,
@@ -100,7 +100,7 @@ router.get('/:id/day/:time/', (req, res) => {
             guild: rows[0].guildName,
             stats: hourStats,
             users: topUsers,
-            maxUser: Math.max(...topUsers.map(e => e[1])),
+            maxUser: Math.max(...topUsers.map(e => e[1].count)),
             maxStat: Math.max(...hourStats.map(e => e[1]))
         });
     });

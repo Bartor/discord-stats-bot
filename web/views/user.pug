@@ -16,16 +16,30 @@ html
                     a.white(href='/u/') Users
                     |
                     |
-                    a > #{usersersersdifsdfk}
-            .container.column
-                p Channels
-                .list
-                    .item
-                        p.flex-two.strong Name
-                        p.flex-one.strong Type
-                        p.flex-one.string ID
-                    each element in data
+                    a > #{userName}
+            .container.column.space
+                .column.flex-one
+                    p User info
+                    .list
                         .item
-                            a.flex-two.white(href=`/c/${element.channelId}/`) #{element.channelName}
-                            p.flex-one #{element.type}
-                            p.flex-one.consolas #{element.channelId}
+                            p.flex-one.strong Username
+                            p.flex-two #{userName}
+                        .item
+                            p.flex-one.strong Usertag
+                            p.flex-two #{userTag}
+                        .item
+                            p.flex-one.strong ID
+                            p.flex-two #{id}
+                br
+                .column.flex-one
+                    p User on guilds
+                    .list
+                        .item
+                            p.flex-two.strong Guild name
+                            p.flex-one.strong Nickname on guild
+                            p.flex-one.strong Guild ID
+                        each element in guilds
+                            .item
+                                a.flex-two.white(href=`/g/${element.id}/`) #{element.name}
+                                p.flex-one #{element.nickname}
+                                p.flex-one #{element.id}

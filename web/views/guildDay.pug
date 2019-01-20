@@ -9,11 +9,13 @@ html
             .container.space
                 p.strong Discord Stats Bot
                 .end
-                    a.white(href='/') Guilds
+                    a.white(href='/') Index
+                    |
+                    | >
+                    |
+                    a.white(href='/g/') Guilds
                     | 
-                    |
-                    a >
-                    |
+                    | >
                     |
                     a.white(href=`/g/${guildId}/`) #{guild}
                     |
@@ -25,8 +27,8 @@ html
                     each element in users
                         .item.column.flex-one.end
                             a.bar.center.white(style={
-                                height: (element[1]*90/maxUser)+'%'
-                            }) #{element[1] == 0 ? '' : element[1]}
+                                height: (element[1].count*90/maxUser)+'%'
+                            }, href=`/u/${element[1].id}`) #{element[1].count == 0 ? '' : element[1].count}
                             a.center #{element[0]}
                 br
                 p Activity - messages per hour

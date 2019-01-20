@@ -29,7 +29,12 @@ router.get('/:id/', (req, res) => {
             return;
         }
 
-
+        res.render('user', {
+            id: rows[0].id,
+            userName: rows[0].userName,
+            userTag: rows[0].userTag,
+            guilds: rows.map(e => ({id: e.guildId, name: e.name, nickname: e.nickname || '-'}))
+        });
     });
 });
 
