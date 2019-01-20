@@ -4,18 +4,17 @@ html
         title DiscordStatsBot
         link(rel='stylesheet', href='/index.css')
         link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=KoHo')
+        link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css", integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/", crossorigin="anonymous")
     body
         .main-container.white
             .container.space
                 p.strong Discord Stats Bot
-                a Guilds
-            .container.column
-                p Tracked guilds
-                .list
-                    .item
-                        p.flex-two.strong Name
-                        p.flex-one.strong ID
-                    each element in data
-                        .item
-                            a.flex-two.white(href=`g/${element.id}/`) #{element.name} 
-                            p.flex-one #{element.id}
+                a Index
+            .container.row.space
+                a.white.column.flex-center.flex-one(href='/g/', style={"text-decoration": "none"})
+                    i.fas.fa-users.fa-10x
+                    p Guilds
+                a.white.column.flex-center.flex-one(href='/u/', style={"text-decoration": "none"})
+                    i.fas.fa-user.fa-10x
+                    p Users
+                    

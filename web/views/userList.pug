@@ -1,0 +1,27 @@
+doctype html
+html
+    head
+        title DiscordStatsBot
+        link(rel='stylesheet', href='/index.css')
+        link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=KoHo')
+    body
+        .main-container.white
+            .container.space
+                p.strong Discord Stats Bot
+                .end
+                    a.white(href='/') Index
+                    |
+                    |
+                    a > Users
+            .container.column
+                p Users
+                .list
+                    .item
+                        p.flex-two.strong Username
+                        p.flex-one.strong Guild count
+                        p.flex-one.string ID
+                    each element in data
+                        .item
+                            a.flex-two.white(href=`/u/${element.id}/`) #{element.username}
+                            p.flex-one #{element.count}
+                            p.flex-one.consolas #{element.id}

@@ -1,0 +1,25 @@
+doctype html
+html
+    head
+        title DiscordStatsBot
+        link(rel='stylesheet', href='/index.css')
+        link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=KoHo')
+    body
+        .main-container.white
+            .container.space
+                p.strong Discord Stats Bot
+                .end
+                    a.white(href='/') Index
+                    |
+                    |
+                    a > Guilds
+            .container.column
+                p Tracked guilds
+                .list
+                    .item
+                        p.flex-two.strong Name
+                        p.flex-one.strong ID
+                    each element in data
+                        .item
+                            a.flex-two.white(href=`${element.id}/`) #{element.name} 
+                            p.flex-one #{element.id}

@@ -136,6 +136,10 @@ input:active {
     flex-flow: row-reverse;
 }
 
+.flex-center {
+    align-items: center;
+}
+
 .end {
     justify-content: flex-end;
 }

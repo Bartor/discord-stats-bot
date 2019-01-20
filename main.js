@@ -6,6 +6,7 @@ const path = require('path');
 const indexRouter = require('./web/routers/index');
 const guildRouter = require('./web/routers/guild');
 const channelRouter = require('./web/routers/channel');
+const userRouter = require('./web/routers/user');
 
 const discordConfig = JSON.parse(fs.readFileSync('config/discord.json'));
 
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, '/web/static')));
 app.use('/', indexRouter);
 app.use('/g/', guildRouter);
 app.use('/c/', channelRouter);
+app.use('/u/', userRouter);
 
 let httpServer = require('http').createServer(app);
 httpServer.listen(2137, () => {

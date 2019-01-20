@@ -4,7 +4,7 @@ const config = JSON.parse(require('fs').readFileSync('config/db.json'));
 const connection = db.createConnection({
     host: config.host,
     port: config.port,
-    user: config.user,
+    user: config.webuser,
     password: config.password,
     database: "DiscordStats"
 });
@@ -40,7 +40,13 @@ module.exports = {
     getChannelGuildInfo: function (channelId, cb) {
         connection.query('SELECT C.name AS channelName, G.id AS guildId, G.name AS guildName FROM Channels C JOIN Guilds G ON C.guildId = G.id WHERE C.id = ?', [channelId], cb);
     },
-    getSchema(cb) {
+    getSchema: function (cb) {
         connection.query('SELECT table_name, column_name FROM `INFORMATION_SCHEMA`.`columns` WHERE table_schema = "discordstats" AND table_name not like "v%"', [], cb);
+    },
+    getUserOnGuilds: function(id, cb) {
+        connection.query('SELECY * FROM Users U JOIN GuildUser GU ON U.id = GU.user JOIN Guilds G ON G.id = GU.guildId WHERE U.id = ?', [id], cb);
+    },
+    getAllUsers: function(cb) {
+        connection.query('SELECT U.id, U.username, count(guildId) as count FROM GuildUser GU JOIN USERS U ON U.id = GU.user group by GU.user', cb);
     }
 }
