@@ -32,7 +32,7 @@ module.exports = {
         connection.query('SELECT U.id AS id, time, userName, G.name AS guildName FROM Messages M JOIN Channels C ON M.channel = C.id JOIN Guilds G ON C.guildId = G.id JOIN Users U ON M.author = U.id WHERE G.id = ? AND DAY(M.time) = DAY(?)', [guildId, day], cb);
     },
     getMessFromChannel: function (channelId, cb) {
-        connection.query('SELECT time, userName, G.name AS guildName, C.name AS channelName, G.id AS guildId FROM Messages M JOIN Channels C ON M.channel = C.id JOIN Guilds G ON C.guildId = G.ID JOIN Users U ON M.author = U.id WHERE C.id = ?', [channelId], cb);
+        connection.query('SELECT time, userName, G.name AS guildName, C.name AS channelName, G.id AS guildId, U.id AS id FROM Messages M JOIN Channels C ON M.channel = C.id JOIN Guilds G ON C.guildId = G.ID JOIN Users U ON M.author = U.id WHERE C.id = ?', [channelId], cb);
     },
     getChannelLogs: function (channelId, cb) {
         connection.query('SELECT * FROM MessageLog WHERE channel = ?', channelId, cb);

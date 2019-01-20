@@ -18,10 +18,10 @@ router.get('/:id/', (req, res) => {
 
             let topUsers = {};
             for (let m of messages) {
-                if (topUsers[m.userName] !== undefined) topUsers[m.userName]++;
-                else topUsers[m.userName] = 1;
+                if (topUsers[m.userName] !== undefined) topUsers[m.userName].count++;
+                else topUsers[m.userName] = {count: 1, id: m.id};
             }
-            topUsers = Object.entries(topUsers).sort((a, b) => b[1] - a[1]);
+            topUsers = Object.entries(topUsers).sort((a, b) => b[1].count - a[1].count);
 
             let guildName, channelName, guildId;
 
@@ -44,7 +44,7 @@ router.get('/:id/', (req, res) => {
 
                     res.render('channel', {
                         users: topUsers,
-                        max: Math.max(...topUsers.map(e => e[1])),
+                        max: Math.max(...topUsers.map(e => e[1].count)),
                         guildId: guildId,
                         guildName: guildName,
                         channelName: channelName,
@@ -61,7 +61,7 @@ router.get('/:id/', (req, res) => {
 
                 res.render('channel', {
                     users: topUsers,
-                    max: Math.max(...topUsers.map(e => e[1])),
+                    max: Math.max(...topUsers.map(e => e[1].count)),
                     guildId: guildId,
                     guildName: guildName,
                     channelName: channelName,

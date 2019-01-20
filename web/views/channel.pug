@@ -51,8 +51,8 @@ html
                                 else
                                     .bar-container
                                         a.bar.white(style={
-                                            height: (element[1]*90/max)+"%"
-                                        }) #{element[1]}
+                                            height: (element[1].count*90/max)+"%"
+                                        }, href=`/u/${element[1].id}/`) #{element[1].count}
                                     a.label #{element[0]}
                 else
                     p.consolas noone wrote anything
