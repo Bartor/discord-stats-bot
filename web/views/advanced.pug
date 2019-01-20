@@ -28,6 +28,7 @@ html
                         p Write
                         br
                         input#query(type='text')
-                    input(type='button', value='QUERY')
+                    input(type='button', value='QUERY', onclick='query()')
                 p Results
                 .list#results
+                p.strong(style={color: '#f00'})#error

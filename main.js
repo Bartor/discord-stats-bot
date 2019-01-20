@@ -2,6 +2,7 @@ const fs = require('fs');
 const discord = require('discord.js');
 const express = require('express');
 const path = require('path');
+const bp = require('body-parser');
 
 const indexRouter = require('./web/routers/index');
 const guildRouter = require('./web/routers/guild');
@@ -25,6 +26,8 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname + '/web/views'));
 
 app.use(express.static(path.join(__dirname, '/web/static')));
+
+app.use(bp.json());
 
 app.use('/', indexRouter);
 app.use('/g/', guildRouter);

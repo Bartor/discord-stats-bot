@@ -15,4 +15,15 @@ router.get('/advanced/', (req, res) => {
     })
 });
 
+router.post('/query/', (req, res) => {
+    connector.customQuery(req.body.query, (err, rows, fields) => {
+        if (err) {
+            res.status(500).json(err);
+            return;
+        }
+
+        res.json({rows: rows, fields: fields});
+    })
+});
+
 module.exports = router;

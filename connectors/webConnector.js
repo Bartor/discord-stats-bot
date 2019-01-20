@@ -48,5 +48,8 @@ module.exports = {
     },
     getAllUsers: function(cb) {
         connection.query('SELECT U.id, U.username, count(guildId) as count FROM GuildUser GU JOIN USERS U ON U.id = GU.user group by GU.user', [], cb);
+    },
+    customQuery: function(query, cb) {
+        connection.query(query, [], cb);
     }
 }

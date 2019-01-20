@@ -53,3 +53,50 @@ const updateQuery = () => {
 
     document.getElementById('query').value = 'SELECT ' + colums.join(', ') + ' FROM ' + table + ';';
 }
+
+const query = () => {
+    let list = document.getElementById('results');
+
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
+
+    document.getElementById('error').textContent = '';
+    let q = document.getElementById('query').value;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', '/query/', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function () {
+        let results = JSON.parse(xhr.responseText);
+        if (xhr.readyState == 4 && xhr.status == "200") {
+            let line = document.createElement('div');
+            line.classList.add('item');
+            for (let f of results.fields) {
+                let field = document.createElement('p');
+                field.classList.add('flex-one');
+                field.classList.add('strong');
+                field.append(document.createTextNode(f.name));
+
+                line.append(field);
+            }
+            list.append(line);
+
+            for (let r of results.rows) {
+                line = document.createElement('div');
+                line.classList.add('item');
+                for (let i = 0; i < results.fields.length; i++) {
+                    let field = document.createElement('p');
+                    field.classList.add('flex-one');
+                    field.append(document.createTextNode(r[results.fields[i].name]));
+
+                    line.append(field);
+                }
+                list.append(line);
+            }
+        } else {
+            document.getElementById('error').textContent = 'ERROR: ' + results.sqlMessage;
+        }
+    }
+    xhr.send(JSON.stringify({query: q}));
+}
