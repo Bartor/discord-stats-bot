@@ -7,6 +7,16 @@
 
 Project focused mainly on database-side of things, uses MySQL, Node.js, Discord.js and MySQL2 connector. Saves logs about messages, deletions, edits, channels, guild, users and more, allows to use customizable commands and own queries to fetch data from the DB.
 
+### Installation
+
+The project is currently _being moved_ to Docker and so it doesn't work that great now. The
+
+```bash
+docker-compose build --build-arg pass=<db user password> --build-arg token=<discord bot token> app database
+```
+
+_should_ build the app properly, but running it using `docker-compose` is to be done. You can start the whole thing manually if you really wish (for whatever reason) or you can create a pull request and help me to fix the damn thing!
+
 #### Structure
 
 There are several important directories in the repository:
