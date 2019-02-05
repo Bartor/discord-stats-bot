@@ -1,7 +1,9 @@
 FROM node:latest
 
-WORKDIR /usr/src/app
-COPY . .
+LABEL MAINTAINER="Bartosz Rajczyk"
+
+ADD . /app
+WORKDIR /app
 
 ARG pass
 ARG token
@@ -11,11 +13,8 @@ RUN echo "{\"host\": \"localhost\",\"port\": 3306,\"user\": \"DiscordStatsBot\",
 RUN echo "[]" > ./config/dbUsers.json
 RUN echo "{\"token\": \"${token}\"}" > ./config/discord.json
 
-RUN cat ./config/discord.json
-
-RUN ls
-
 RUN npm install
 
-EXPOSE 8080
-CMD ["node", "."]
+EXPOSE 2137
+
+CMD ["node", "main"]
