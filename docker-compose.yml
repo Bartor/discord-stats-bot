@@ -2,20 +2,22 @@ version: "3"
 services:
   database:
     image: mysql
-    ports:
-      - 3306:3306
     expose:
       - 3306
     volumes:
-      - ./sqlinit.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       
   app:
     ports:
       - 2000:8080
+    expose:
+      - 2137
     depends_on:
       - database
     links:
       - database
     build: ./app
+    environment:
+      WAIT_HOSTS: database:3306

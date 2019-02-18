@@ -4,7 +4,8 @@
   "description": "Discord bot created to gather guild statistics",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main"
   },
   "author": "Bartosz Rajczyk",
   "license": "ISC",
